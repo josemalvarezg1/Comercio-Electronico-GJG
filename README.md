@@ -26,4 +26,5 @@ La configuración de la base de datos se puede encontrar en el archivo SQL. Ést
 # Integrantes
 
 **José Manuel Alvarez García - CI 25038805**
+
 **José Gregorio Castro Lazo - CI 24635907**
