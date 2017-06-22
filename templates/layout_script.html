@@ -1,0 +1,83 @@
+<!doctype html>
+<html>
+  <head>
+    {% block head %}
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, shrink-to-fit=no, initial-scale=1">
+      <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+      
+      <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+      <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+      <link rel="stylesheet" href="{{ url_for('static', filename='css/simple-sidebar.css') }}">
+      <link rel="icon" type="image/png" href="{{ url_for('static', filename='imagenes/favicon-32x32.png') }}" sizes="32x32">
+
+      <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
+
+      <style>
+        body,h1,h2,h3,h4,h5 {
+          font-family: "Poppins", sans-serif
+        }
+        #titleSideBar {
+           text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+        }
+      </style>
+
+      <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
+      <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+      
+      {% block extra_head %} 
+
+      {% endblock %}
+      
+      
+      <title>{% block title %} GJG C.A. {% endblock %}</title>
+    {% endblock %}
+  </head>
+  <body>
+
+    <div id="wrapper">
+
+      {% block content %}{% endblock %}
+
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- Sidebar naranja -->
+    <nav class="w3-sidebar w3-red w3-collapse w3-top w3-large w3-padding" style="z-index:3;width:300px;font-weight:bold;" id="mySidebar"><br>
+      <a href="javascript:void(0)" onclick="w3_close()" class="w3-button w3-hide-large w3-display-topleft" style="width:100%;font-size:22px; color:white;">☰</a>
+      <div class="w3-container">
+        <a href="/"><h3 id="titleSideBar" class="w3-padding-64" style="color:white;"><b> <span class="glyphicon glyphicon-home" aria-hidden="true"></span> Distribuidor GJG </b></h3></a>
+      </div>
+    </nav>
+    <!-- Fin Sidebar naranja -->
+
+    <!-- Hamburguesa -->
+    <header class="w3-container w3-top w3-hide-large w3-red w3-xlarge w3-padding">
+      <a href="javascript:void(0)" class="w3-button w3-red w3-margin-right" onclick="w3_open()">☰</a>
+    </header>
+    <div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+
+    <!-- Menu Toggle Script -->
+    <script>
+    $("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+    });
+
+    // Funciones para abrir y cerrar hamburguesa
+    function w3_open() {
+        document.getElementById("mySidebar").style.display = "block";
+        document.getElementById("myOverlay").style.display = "block";
+    }
+     
+    function w3_close() {
+        document.getElementById("mySidebar").style.display = "none";
+        document.getElementById("myOverlay").style.display = "none";
+    }
+
+    </script>
+
+
+  </body>
+</html>

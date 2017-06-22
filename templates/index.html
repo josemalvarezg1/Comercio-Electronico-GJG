@@ -1,0 +1,291 @@
+{% extends "layout.html" %}
+
+{% block extra_head %} 
+<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-datetimepicker.min.css') }}">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="{{ url_for('static', filename='js/moment.js') }}"></script>
+<script src="{{ url_for('static', filename='js/bootstrap-datetimepicker.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/gestion_solicitud.js') }}"></script>
+{% endblock %}
+
+{% block content %}
+
+<style>
+    .bold {
+        font-weight: bold;
+    }
+
+    
+</style>
+
+<!-- Page Content -->
+
+<div id="page-content-wrapper" class="w3-main" style="margin-left:340px;margin-right:40px;">
+
+    <div class="container-fluid">
+
+        <div class="row">
+      
+            <div class="col-md-6">
+
+                <div class="row">
+
+                    <div class="col-md-9">
+
+                        {% if current_user is defined or admin is defined %}
+                        
+                            <div class="w3-container" style="margin-top:80px" id="showcase">
+                                <h1 class="w3-jumbo"><b>Distribuidor GJG</b></h1>
+                                <h1 class="w3-xxxlarge w3-text-red"><b>Rastrea tu paquete.</b></h1>
+                                <hr style="width:50px;border:5px solid red" class="w3-round">                                                             
+                            </div>
+
+                        {% else %}
+
+                            <div class="w3-container" style="margin-top:80px" id="showcase">
+                                <h1 class="w3-jumbo"><b>Distribuidor GJG</b></h1>
+                                {% if error is defined %}
+
+                                    <h1 class="w3-xxxlarge w3-text-red"><b>¡Error!</b></h1>
+
+                                {% else %}
+
+                                    <h1 class="w3-xxxlarge w3-text-red"><b>¡Bienvenido!</b></h1>
+
+                                {% endif %}
+                                <hr style="width:50px;border:5px solid red" class="w3-round">                                                             
+                            </div>
+
+                        {% endif %}
+
+                    </div>
+
+                    <div class="col-md-3">
+
+                        <img style="margin-top:80px" width="180" height="180" src="{{ url_for('static', filename='imagenes/logo.png') }}">
+
+                    </div>
+
+                </div>                     
+
+            </div>
+
+            <div class="col-md-6"></div>
+                    
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                {% if error is defined %}
+                    <p style="color:red;">{{error}}</p>
+                {% endif %}
+
+                {% if current_user is defined or admin is defined %}
+
+                <p>Introduce el tracking de tu paquete:</p>   
+
+                <div class="input-group ">
+                   <input type="text" id="tracking" class="form-control">
+                   <span class="input-group-btn">
+                        <button type="button" id="buscar_track" class="btn btn-primary" style="display: inline;">Buscar</button>
+                   </span>
+                </div>
+
+                {% else %}
+
+                    <p style="text-align: justify;">&nbsp;&nbsp;&nbsp;&nbsp;Somos una empresa dedicada a la distribución de productos y materiales para uso masivo en todos los canales como mayoristas y al detalle. Contamos con marcas propias ofreciendo distribución exclusiva de los productos de más alta calidad provenientes de toda Venezuela.
+                    </p>
+
+                    <img style="display: block; margin: 0 auto;" src="{{ url_for('static', filename='imagenes/distribuidor.gif') }}">
+
+                {% endif %}
+
+            </div> 
+        </div>
+
+        </div> </br></br>
+
+        <div class="row" style="display:none;" id="datos_tracking">
+
+            <div class="col-md-6">
+                    
+                <table class="table form-group">
+                    <tbody>
+                        <tr>
+                          <th class="danger"># de Orden</th>
+                            <td><p id="orden"></p></td>
+                        </tr>
+                        <tr>
+                          <th class="danger">Estatus</th>
+                            <td><p id="status"></p></td>
+                        </tr>
+                        <tr>
+                          <th class="danger">Cédula</th>
+                            <td> <p id="cedula"></p></td>
+                        </tr>
+                        <tr>
+                          <th class="danger">Nombre</th>
+                            <td><p id="nombre"></p></td>
+                        </tr>
+                        <tr>
+                          <th class="danger">Teléfono</th>
+                            <td><p id="telefono"></p></td>
+                        </tr>
+                        <tr>
+                          <th class="danger">Correo</th>
+                            <td><p id="correo"></p></td>
+                        </tr>
+                        <tr>
+                          <th class="danger">Peso</th>
+                            <td><p id="peso"></p></td>
+                        </tr>
+                        <tr>
+                          <th class="danger">Fecha de Compra</th>
+                            <td><p id="fecha_compra"></p></td>
+                        </tr>
+                        <tr>
+                          <th class="danger">Fecha Estimada</th>
+                            <td><p id="fecha_estimada"></p></td>
+                        </tr>
+                        <tr>
+                          <th class="danger">Costo</th>
+                            <td><p id="costo"></p></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-6" style="display:none;" id="datos_tracking2">
+            <p style="color:red; display: inline">Estatus: </p><p id="status_cliente" style="display: inline"></p>
+            <table class="table table-bordered table-hover" id='tab_logic'>
+                <thead>
+                  <tr>
+                    <th class="danger">Fecha</th>
+                    <th class="danger">Locación</th>
+                  </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+              </table>
+        </div>        
+
+    </div>
+
+    <div id="dialog" title="¡Atención!">
+      <p>El tracking ingresado no existe.</p>
+    </div>
+
+</div>
+
+<!-- /#page-content-wrapper -->
+
+<script>
+    $(function () {
+
+        $("#dialog").dialog({
+          autoOpen : false,
+          modal : true,
+          show : "blind",
+          hide : "blind",
+          my: "center",
+          at: "center",
+          of: window,
+          buttons: {
+            "Aceptar": function () {
+              $(this).dialog("close");
+            }
+          }  
+        });
+
+        $('#buscar_track').click(function() {
+
+        var tracking = $('#tracking').val();
+        console.log(tracking);
+
+        $.ajax
+        ({
+          type:"GET" ,
+          url: '/rastrear_tracking?tracking='+tracking,
+          dataType: "text",
+          error: function (xhr, ajaxOptions, thrownError)
+          {
+              console.log(xhr.status); console.log(thrownError); console.log(ajaxOptions);
+          },
+          success: function(data)
+          {    
+
+                if (data == '[]') {
+                    $('#datos_tracking').css('display','none');
+                    $('#datos_tracking2').css('display','none');
+                    $("#dialog").dialog("open");
+                } else {
+
+                    encargo = jQuery.parseJSON(data);
+                    // Si el tamano de encargo[0] es 5 significa que es un tracking de cliente, en caso contrario es de admin
+
+                    if (encargo[0].length == 5) {
+
+                        N = encargo.length;
+
+                        for (var i = 0; i < N; i++) {
+                            var date = new Date(encargo[i][0]);
+                            date.setDate(date.getDate() + 1);
+                            var estatus = "";
+                            if (encargo[i][3] == 1) estatus = "Por procesar.";
+                            if (encargo[i][3] == 2) estatus = "Procesado.";
+                            if (encargo[i][3] == 3) estatus = "En ruta.";
+                            if (encargo[i][3] == 4) estatus = "Entregado.";
+                            $('#status_cliente').text(estatus);
+                            var fechaCompra = date.getDate() + '/' + (date.getMonth() + 1) + '/' +  date.getFullYear();
+                            $('#tab_logic').append('<tr id="addr'+ i +'"></tr>');
+                            $('#addr'+i).html("<td>" + fechaCompra +"</td> <td> "+ encargo[i][1] +" </td>");
+                        }
+                        $('#datos_tracking').css('display','none');
+                        $('#datos_tracking2').css('display','inline');
+
+                    } else {
+
+                        var date = new Date(encargo[0][6]);
+                        date.setDate(date.getDate() + 1);
+                        var fechaCompra = date.getDate() + '/' + (date.getMonth() + 1) + '/' +  date.getFullYear();
+                        date = new Date(encargo[0][7]);
+                        date.setDate(date.getDate() + 1);
+                        var fechaEstimada = date.getDate() + '/' + (date.getMonth() + 1) + '/' +  date.getFullYear();
+
+                        $('#orden').text(encargo[0][9]);
+                        if (encargo[0][11] == 1) $('#status').text("Por procesar.");
+                        if (encargo[0][11] == 2) $('#status').text("Procesado.");
+                        if (encargo[0][11] == 3) $('#status').text("En ruta.");
+                        if (encargo[0][11] == 4) $('#status').text("Entregado.");
+                        // $('#info_pagador').text('Información del Pagador');
+                        $('#cedula').text(encargo[0][1]);
+                        $('#nombre').text(encargo[0][2]);
+                        $('#telefono').text(encargo[0][3]);
+                        $('#correo').text(encargo[0][4]);
+                        // $('#datos_paquete').text('Información del Paquete');
+                        $('#peso').text(encargo[0][5]);
+                        $('#fecha_compra').text(fechaCompra);
+                        $('#fecha_estimada').text(fechaEstimada);
+                        $('#costo').text(encargo[0][8]);
+                        $('#datos_tracking2').css('display','none');
+                        $('#datos_tracking').css('display','inline');
+                    }
+
+                        
+                }              
+            }
+        });
+
+    });
+
+
+    }); //Fin de document ready
+
+</script>
+
+{% endblock %}

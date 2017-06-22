@@ -1,0 +1,268 @@
+{% extends "layout_script.html" %}
+
+{% block extra_head %} 
+<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-datetimepicker.min.css') }}">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="{{ url_for('static', filename='js/moment.js') }}"></script>
+<script src="{{ url_for('static', filename='js/bootstrap-datetimepicker.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/gestion_solicitud.js') }}"></script>
+{% endblock %}
+
+{% block content %}
+
+<style>
+
+    .bold {
+        font-weight: bold;
+    }
+
+    .divScript {
+        border-radius: 25px;
+        border: 2px solid red;
+        margin-right: 5px;
+        margin-top: 5px;
+    }
+    
+</style>
+
+<!-- Page Content -->
+
+<div id="page-content-wrapper" class="w3-main" style="margin-left:340px;margin-right:40px;">
+
+    <div class="container-fluid">
+
+        <div class="row">
+      
+            <div class="col-md-6">
+
+                <div class="row">
+
+                    <div class="col-md-9">
+
+                        <div class="w3-container" style="margin-top:80px" id="showcase">
+                            <h1 class="w3-jumbo"><b>Distribuidor GJG</b></h1>
+                            <h1 class="w3-xxxlarge w3-text-red"><b>Script de Pruebas.</b></h1>
+                            <hr style="width:50px;border:5px solid red" class="w3-round">                                                             
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-3">
+
+                        <img style="margin-top:80px" width="180" height="180" src="{{ url_for('static', filename='imagenes/logo.png') }}">
+
+                    </div>
+
+                </div>       
+
+                               
+
+            </div>
+
+            <div class="col-md-6"></div>
+                    
+        </div>
+
+        <div class="row">
+
+            <div class="col-md-9">
+
+                <p id="textA" style="color:red; word-wrap: break-word;">No se encontró ningún token actualmente.</p>
+
+            </div>
+
+        </div>
+
+        </br></br>
+
+        <div class="row">
+
+            <div class="col-md-3 divScript">   
+
+                </br></br>
+                <b style="color: #428bca;">Registrar al siguiente usuario:</b></br></br></br></br></br>
+
+                <b>Correo:</b> "bea@gmail.com"</br>
+                <b>Contraseña:</b> "12345678"</br>
+                <b>RIF:</b> "6163542"</br>
+                <b>Código Postal:</b> "1020"</br>
+                <b>Nombre:</b> "Beatriz Garcia"</br>
+
+                </br></br></br></br>
+
+                <input type="button" class="btn btn-primary" id="btn1" value="Registrar" >
+
+                </br></br>
+
+            </div>
+
+            <div class="col-md-3 divScript">
+
+                </br></br>
+                <b style="color: #428bca;">Iniciar sesión con el siguiente usuario:</b></br></br></br></br></br></br>
+
+                <b>Correo:</b> "brayhan.alberto02@gmail.com"</br>
+                <b>Contraseña:</b> "123456789"</br>
+
+                </br></br></br></br></br></br>
+
+               <input type="button" class="btn btn-primary" id="btn2" value="Iniciar sesión" >
+
+                </br></br>
+
+            </div>
+
+            <div class="col-md-3 divScript">
+
+                </br></br>
+                <b style="color: #428bca;">Solicitar la siguiente distribución:</b></br></br>
+                <b>Cédula:</b> "6162125"</br>
+                <b>Nombre:</b> "Edgar Pérez"</br>
+                <b>Teléfono:</b> "04143548792"</br>
+                <b>Correo:</b> "bea@gmail.com"</br>
+                <b>Dirección:</b> "Las Mercedes, Torre Exa"</br>
+                <b>Código Postal:</b> "1090"</br>
+                <b>Peso:</b> 6.1</br>
+                <b>Nombre del Comercio:</b> "cachibaches"</br>
+                <b>RIF del Comercio:</b> "V123456789"</br>
+                <b>Banco:</b> "NJG"</br>
+
+                </br></br>
+
+               <input type="button" class="btn btn-primary" id="btn3" value="Solicitar distribución" >
+
+                </br></br>
+
+            </div>
+
+            </div>  
+
+        <div class="row">
+            <div class="col-md-6">
+
+                {% if error is defined %}
+                    <p style="color:red;">{{error}}</p>
+                {% endif %}
+
+
+            </div> 
+        </div>
+
+        </div> </br></br>
+
+          
+
+    </div>
+
+</div>
+
+<!-- /#page-content-wrapper -->
+
+<script>
+    $(function () {
+
+        var global_token = '';
+
+        function register() {
+            $.ajax({
+             url: "https://distribuidor-gjg.herokuapp.com/registro",
+             type: "POST",
+             dataType: "json",
+             contentType: "application/json",
+             async: false,
+             data: JSON.stringify({
+                "correo": "bea@gmail.com",
+                "clave": "12345678",
+                "rif": "6163542",
+                "codPostal": "1020",
+                "descripcion": "Beatriz Garcia"
+             }),  
+             success: function(data){
+                alert(data["message"]);
+             },
+             error: function(xhr, a, status){
+                if (xhr.status == 400) alert("Error en la petición.");
+                if (xhr.status == 409) alert("El usuario indicado ya existe.");
+             }
+           });
+          }
+
+        function login() {
+            $.ajax({
+             url: "https://distribuidor-gjg.herokuapp.com/login",
+             type: "POST",
+             dataType: "json",
+             contentType: "application/json",
+             async: false,
+             data: JSON.stringify({
+                "correo": "brayhan.alberto02@gmail.com",
+                "clave": "123456789"
+             }),  
+             success: function(data){
+                global_token = data["access_token"];
+                $("#textA").text('Token actual: '+global_token);
+                $("#textA").css('color', 'blue');
+             },
+             error: function(xhr, a, status){
+                if (xhr.status == 400) alert("Error en la petición.");
+                if (xhr.status == 410) alert("Las credenciales ingresadas no son válidas.");
+                alert(status);
+             }
+           });
+          }
+
+         function solicitarDistribucion(token) {
+
+            var headername = 'access_token';
+            var headervar = token;
+            var headers_to_set = {};
+            headers_to_set[ headername ] = headervar;
+
+            $.ajax({
+             url: "https://distribuidor-gjg.herokuapp.com/solicitarDistribucion",
+             type: "POST",
+             dataType: "json",
+             headers:headers_to_set,
+             contentType: "application/json",
+             async: false,
+             data: JSON.stringify({
+                "cedula": "6162125",
+                "nombre": "Edgar Pérez",
+                "telefono": "04143548792",
+                "correo": "bea@gmail.com",
+                "direccion": "Las Mercedes, Torre Exa",
+                "codPostal": "1090",
+                "peso": 6.1,
+                "nombre_comercio": "cachibaches",
+                "rif_comercio": "V123456789",
+                "banco": "NJG"
+
+              }),  
+             success: function(data) {
+                alert(data["message"] + " con el número de tracking: " + data["tracking_number"]);
+             },
+             error: function(xhr, a, status){
+                if (xhr.status == 412) alert("Error al decodificar el token.");
+                if (xhr.status == 400) alert("Error en la petición.");
+             }
+           });
+          }
+
+        $("#btn1" ).click(function() {
+            register();
+        });
+       
+       $("#btn2" ).click(function() {
+            login();
+        });
+
+       $("#btn3" ).click(function() {
+            solicitarDistribucion(global_token);
+        });
+
+    }); //Fin de document ready
+
+</script>
+
+{% endblock %}

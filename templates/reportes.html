@@ -1,0 +1,279 @@
+{% extends "layout.html" %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-datetimepicker.min.css') }}">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="{{ url_for('static', filename='js/moment.js') }}"></script>
+<script src="{{ url_for('static', filename='js/bootstrap-datetimepicker.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/reportes.js') }}"></script>
+
+{% endblock %}
+
+
+{% block content %}
+
+<!-- Page Content -->
+<div id="page-content-wrapper" class="w3-main" style="margin-left:340px;margin-right:40px;">
+    <div class="container-fluid">
+
+        <div class="row">
+      
+            <div class="col-md-6">
+
+                <div class="row">
+
+                    <div class="col-md-9">
+
+                        <div class="w3-container" style="margin-top:80px" id="showcase">
+                            <h1 class="w3-jumbo"><b>Distribuidor GJG</b></h1>
+                            <h1 class="w3-xxxlarge w3-text-red"><b>Reportes.</b></h1>
+                            <hr style="width:50px;border:5px solid red" class="w3-round">
+                                                         
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-3">
+
+                        <img style="margin-top:80px" width="180" height="180" src="{{ url_for('static', filename='imagenes/logo.png') }}"">
+
+                    </div>
+
+                </div>                     
+
+            </div>
+
+            <div class="col-md-6"></div>
+                    
+        </div>
+
+        </br>
+        <div class="row">
+
+            <div class="col-md-9 text-center">
+                {% if error is defined %}
+                <p style="color:red;">{{error}}</p>
+                {% endif %}
+               
+                <!-- <a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Menu</a> -->
+                
+                <div class="row">
+                    
+                    <div class="col-md-6 text-center">
+                        <label for="tipo">Tipo de Solicitud:</label>
+                        <select class="form-control" id="tipo" name="tipo">
+                            <option> Solicitudes Despachadas </option>
+                            <option> Solicitudes Pendientes </option>
+                            <option> Clientes </option>
+                            <option> Destinos </option>
+                            <option> Facturas Canceladas </option>
+                            <option> Facturas Vigentes  </option>
+                            <option> Facturas Vencidas  </option>
+                        </select></br>
+                    </div>    
+
+                    <div class="col-md-6 text-center">
+                    <div id="rango_fechas">
+                        <label for="select_fecha">Rango de fechas:</label>
+                            <select class="form-control" id="select_fecha">
+                                <option> Intervalo de Tiempo </option>
+                                <option> Día </option>
+                                <option> Mes </option>
+                                <option> Año </option>
+                            </select>
+                        </div>
+                    </div> 
+                    
+                </div>
+
+                </br>
+
+                <div class="row">
+                    <!-- Calendarios -->
+                    <div class="col-md-6 text-center">
+
+                        <div id="date1">
+                            <label for="datetimepicker6">Fecha Inicial:</label>
+                            <div class='input-group date' id='datetimepi6'>
+                                <input id="fecha1" placeholder="Fecha Inicial" type='text' class="form-control datepicker" />
+                                <span id="span1" class="input-group-addon">
+                                    <span id="calendar1" class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div id="date3">
+                            <div class=class="col-md-6 text-center">
+                                <label for="select_mes">Mes Inicial:</label>
+                                <select class="form-control" id="select_mes">
+                                  <option value="01">Enero</option>
+                                  <option value="02">Febrero</option>
+                                  <option value="03">Marzo</option>
+                                  <option value="04">Abril</option>
+                                  <option value="05">Mayo</option>
+                                  <option value="06">Junio</option>
+                                  <option value="07">Julio</option>
+                                  <option value="08">Agosto</option>
+                                  <option value="09">Septiembre</option>
+                                  <option value="10">Octubre</option>
+                                  <option value="11">Noviembre</option>
+                                  <option value="12">Diciembre</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div id="date4">
+                            <div class=class="col-md-6 text-center">
+                                <label for="select_anno">Año Inicial:</label>
+                                <select class="form-control" id="select_anno">
+                                  <option>2017</option>
+                                  <option>2016</option>
+                                  <option>2015</option>
+                                  <option>2014</option>
+                                  <option>2013</option>
+                                  <option>2012</option>
+                                  <option>2011</option>
+                                  <option>2010</option>
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    
+                    <div class="col-md-6 text-center">
+                        <div id="date2">
+                          <label for="datetimepicker7">Fecha Final:</label>
+                          <div class='input-group date' id='datetimepi7'>
+                              <input id="fecha2" type='text' placeholder="Fecha Final" class="form-control datepicker" />
+                              <span id="span2" class="input-group-addon">
+                                  <span id="calendar2" class="glyphicon glyphicon-calendar"></span>
+                              </span>
+                          </div>
+                        </div>
+
+                        <div id="date5">
+                            <div class=class="col-md-6 text-center">
+                                <label for="select_anno2">Año Inicial:</label>
+                                <select class="form-control" id="select_anno2">
+                                  <option>2017</option>
+                                  <option>2016</option>
+                                  <option>2015</option>
+                                  <option>2014</option>
+                                  <option>2013</option>
+                                  <option>2012</option>
+                                  <option>2011</option>
+                                  <option>2010</option>
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+                    
+                </div>
+
+                </br>
+                <div class="row">
+                    <div class="col-md-6 text-right">
+                        <input type="button" class="btn btn-primary" value="Generar" id="boton_generar_aux">
+                    </div>
+                    <div class="col-md-6 text-right">
+                        <input type="button" class="btn btn-primary" value="Generar" id="boton_generar">
+                    </div>
+                </div>
+
+                <form action="pdf_generate" id="formulario_real" method="POST" style="display:none;">
+                    <input id="solicitud_real" type="text" name="solicitud">
+                    <input id="desde_real" type="text" name="desde">
+                    <input id="hasta_real" type="text" name="hasta">
+                    <input id="tipo_fecha" type="text" name="tipo_fecha">
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+    <div id="dialog" title="¡Atención!">
+      <p>Los campos de fecha son requeridos.</p>
+    </div>
+
+    <div id="dialog2" title="¡Atención!">
+      <p>El campo de fecha es requerido.</p>
+    </div>
+
+</div>
+
+
+<!-- /#page-content-wrapper -->
+
+
+<script type="text/javascript">
+    $(function () {
+
+        $("#dialog, #dialog2").dialog({
+          autoOpen : false,
+          modal : true,
+          show : "blind",
+          hide : "blind",
+          my: "center",
+          at: "center",
+          of: window,
+          buttons: {
+            "Aceptar": function () {
+              $(this).dialog("close");
+            }
+          }  
+        });
+
+        $("#calendar1").click(function() {
+          $("#fecha1").focus();
+        });
+
+        $("#calendar2").click(function() {
+          $("#fecha2").focus();
+        });
+
+        $('#tipo').val("Solicitudes Despachadas");
+        $('#select_fecha').val("Intervalo de Tiempo");
+        $('.datepicker').datepicker();
+        $.datepicker.regional['es'] = {
+          closeText: 'Cerrar',
+          prevText: '<Ant',
+          nextText: 'Sig>',
+          currentText: 'Hoy',
+          monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+          monthNamesShort: ['Ene','Feb','Mar','Abr', 'May','Jun','Jul','Ago','Sep', 'Oct','Nov','Dic'],
+          dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+          dayNamesShort: ['Dom','Lun','Mar','Mié','Juv','Vie','Sáb'],
+          dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sá'],
+          onSelect: function() {
+            $('#fecha2').datepicker('option', 'minDate', $("#fecha1").datepicker("getDate"));
+          },
+          weekHeader: 'Sm',
+          dateFormat: 'dd/mm/yy',
+          firstDay: 1,
+          isRTL: false,
+          showMonthAfterYear: false,
+          yearSuffix: ''
+        };
+        $.datepicker.setDefaults($.datepicker.regional['es']);
+
+        $('#fecha3').hide();
+        $('#span3').hide();
+        $('#date3').hide();
+
+        $('#fecha4').hide();
+        $('#span4').hide();
+        $('#date4').hide();
+
+        $('#date5').hide();
+        
+
+        $('#boton_generar_aux').hide();
+
+    });
+</script>
+
+
+{% endblock %}
